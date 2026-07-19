@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MyBGList.Middlewares;
 using MyBGList.Models;
 using MyBGList.servs;
 using MyBGList.servs.Iservices;
@@ -66,12 +67,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
 }
+
 if(app.Configuration.GetValue<bool>("UseDeveloperException"))
     app.UseDeveloperExceptionPage();
 else
     app.UseExceptionHandler("/error");
 
-
+app.UseMiddleware<profilingMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
