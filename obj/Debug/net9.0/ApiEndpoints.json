@@ -2,7 +2,7 @@
   {
     "ContainingType": "MyBGList.Controllers.AccountController",
     "Method": "Login",
-    "RelativePath": "Account/Login",
+    "RelativePath": "Account/login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +18,7 @@
   {
     "ContainingType": "MyBGList.Controllers.AccountController",
     "Method": "Register",
-    "RelativePath": "Account/Register",
+    "RelativePath": "Account/register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
