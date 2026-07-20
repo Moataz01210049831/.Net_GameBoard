@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MyBGList.Middlewares;
 using MyBGList.Models;
 using MyBGList.servs;
 using MyBGList.servs.Iservices;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,7 +49,7 @@ builder.Services.AddAuthentication(options =>
 
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
-
+        RoleClaimType = ClaimTypes.Role,
         IssuerSigningKey = new SymmetricSecurityKey(
            Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
     };
@@ -55,6 +57,29 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddSwaggerGen(opt =>
 {
+    opt.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme { 
+    
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    opt.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        Array.Empty<string>()
+    }
+    }); 
     //opt.ResolveConflictingActions(api=>api.First());
 });
 var app = builder.Build();

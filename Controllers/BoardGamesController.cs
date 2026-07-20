@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyBGList.constants;
 using MyBGList.DTO;
 using MyBGList.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyBGList.Controllers
 {
+    [Authorize(Roles =RoleNames.Agent)]
     [Route("[controller]")]
     [ApiController]
     public class BoardGamesController(ILogger<BoardGame> _logger,ApplicationDbContext context) : ControllerBase

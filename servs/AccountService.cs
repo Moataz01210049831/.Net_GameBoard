@@ -31,10 +31,14 @@ namespace MyBGList.servs
 {
     new Claim(JwtRegisteredClaimNames.Sub, user.Id),
     new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
-    new Claim(JwtRegisteredClaimNames.Email, user.Email!)
+    new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+    
 };
+            var roles = await _userManager.GetRolesAsync(user);
 
-                var key = new SymmetricSecurityKey(
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+            var key = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_config["JWT:Key"]!));
 
                 var credentials = new SigningCredentials(
