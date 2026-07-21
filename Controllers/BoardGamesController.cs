@@ -9,14 +9,14 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyBGList.Controllers
 {
-    [Authorize(Roles =RoleNames.Agent)]
+    //[Authorize(Roles =RoleNames.Agent)]
     [Route("[controller]")]
     [ApiController]
     public class BoardGamesController(ILogger<BoardGame> _logger,ApplicationDbContext context) : ControllerBase
     {
         [HttpGet]
         //[Route("GetBoardGames")]
-        public async Task<ActionResult<BoardGame>> Get(int pageNumber=0,int pageSize=0,string? filterQuery=null)
+        public async Task<ActionResult<BoardGame>> Get(int pageNumber=0,int pageSize=10,string? filterQuery=null)
         {
             _logger.LogInformation("test loginig data");
             var query = context.BoardGames.AsQueryable();
